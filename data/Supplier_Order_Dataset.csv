@@ -1,0 +1,11 @@
+Supplier ID,Supplier Name,Supplier Location,Product Name,Category,Price per Unit,Order ID,Order Date,Quantity Ordered,Order Status,Delivery Time (Days),Payment Terms,Rating
+SPL0001,Supplier_1,Delhi,Oil,Grains,165.28,ORD0001,2024-12-01,371,Pending,9,Cash on Delivery,3.3
+SPL0002,Supplier_2,Bangalore,Sugar,Essentials,251.9,ORD0002,2024-12-02,871,Pending,5,Net 60,3.3
+SPL0003,Supplier_3,Kolkata,Oil,Staples,368.29,ORD0003,2024-12-03,518,Completed,5,Cash on Delivery,3.4
+SPL0004,Supplier_4,Mumbai,Salt,Staples,285.52,ORD0004,2024-12-04,589,Pending,10,Cash on Delivery,3.9
+SPL0005,Supplier_5,Bangalore,Wheat,Grains,172.02,ORD0005,2024-12-05,740,Pending,3,Cash on Delivery,3.7
+SPL0006,Supplier_6,Chennai,Salt,Oils,112.32,ORD0006,2024-12-06,266,Pending,9,Net 30,3.8
+SPL0007,Supplier_7,Delhi,Sugar,Condiments,461.85,ORD0007,2024-12-07,404,Pending,2,Cash on Delivery,4.7
+SPL0008,Supplier_8,Chennai,Rice,Essentials,222.55,ORD0008,2024-12-08,860,Pending,2,Net 30,3.0
+SPL0009,Supplier_9,Bangalore,Sugar,Oils,253.67,ORD0009,2024-12-09,635,Completed,6,Net 60,4.7
+SPL0010,Supplier_10,Mumbai,Rice,Staples,456.84,ORD0010,2024-12-10,832,Completed,1,Cash on Delivery,4.8

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Updates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>Admin Controls</h1>
+
+    <div>
+        <h3>Wheat</h3>
+        <label for="wheat-price">Price:</label>
+        <input type="number" id="wheat-price" placeholder="Max Price" required>
+        <label for="wheat-rating">Rating:</label>
+        <input type="number" id="wheat-rating" step="0.1" placeholder="Min Rating" required>
+        <label for="wheat-quantity">Quantity:</label>
+        <input type="number" id="wheat-quantity" placeholder="Required Quantity" required>
+        <button onclick="saveRequirements('Wheat')">Save Requirements</button>
+    </div>
+
+    <div>
+        <h3>Mustard Seed</h3>
+        <label for="mustard-price">Price:</label>
+        <input type="number" id="mustard-price" placeholder="Max Price" required>
+        <label for="mustard-rating">Rating:</label>
+        <input type="number" id="mustard-rating" step="0.1" placeholder="Min Rating" required>
+        <label for="mustard-quantity">Quantity:</label>
+        <input type="number" id="mustard-quantity" placeholder="Required Quantity" required>
+        <button onclick="saveRequirements('Mustard Seed')">Save Requirements</button>
+    </div>
+
+    <div>
+        <h3>Soybean</h3>
+        <label for="soybean-price">Price:</label>
+        <input type="number" id="soybean-price" placeholder="Max Price" required>
+        <label for="soybean-rating">Rating:</label>
+        <input type="number" id="soybean-rating" step="0.1" placeholder="Min Rating" required>
+        <label for="soybean-quantity">Quantity:</label>
+        <input type="number" id="soybean-quantity" placeholder="Required Quantity" required>
+        <button onclick="saveRequirements('Soybean')">Save Requirements</button>
+    </div>
+
+    
+
+    <h1>Today's Updates</h1>
+
+    <!-- Wheat Section -->
+    <h2>Wheat</h2>
+    <table id="wheat-table">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>Email</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Mustard Seed Section -->
+    <h2>Mustard Seed</h2>
+    <table id="mustard-table">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>Email</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Soybean Section -->
+    <h2>Soybean</h2>
+    <table id="soybean-table">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>Email</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function fetchSuppliers(product, tableId) {
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/suppliers/${product}`);
+                const data = await response.json();
+
+                // Populate the table with data
+                const tbody = document.getElementById(tableId).querySelector("tbody");
+                tbody.innerHTML = ""; // Clear existing rows
+
+                data.suppliers.forEach(supplier => {
+                    const row = `
+                        <tr>
+                            <td>${supplier.name}</td>
+                            <td>${supplier.email}</td>
+                            <td>${supplier.product}</td>
+                            <td>${supplier.price_per_unit}</td>
+                            <td>${supplier.quantity_available}</td>
+                            <td>${supplier.agreement_status}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            } catch (error) {
+                console.error(`Error fetching suppliers for ${product}:`, error);
+            }
+        }
+
+        // Fetch and display data for each product
+        fetchSuppliers("Wheat", "wheat-table");
+        fetchSuppliers("Mustard Seed", "mustard-table");
+        fetchSuppliers("Soybean", "soybean-table");
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrderAutomateAI Email Generator</title>
+</head>
+<body>
+    <h1>OrderAutomateAI - Email Generator</h1>
+
+    <form id="emailForm">
+        <label for="supplierName">Supplier Name:</label>
+        <input type="text" id="supplierName" name="supplierName" placeholder="Supplier_3" required><br><br>
+
+        <label for="purpose">Purpose:</label>
+        <select id="purpose" name="purpose">
+            <option value="negotiation">Negotiation</option>
+            <option value="restocking">Restocking</option>
+            <option value="follow-up">Follow-Up</option>
+        </select><br><br>
+
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" placeholder="Wheat" required><br><br>
+
+        <label for="price">Price per Unit:</label>
+        <input type="number" id="price" name="price" placeholder="368" required><br><br>
+
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" name="rating" step="0.1" placeholder="3.4" required><br><br>
+
+        <button type="submit">Generate Email</button>
+    </form>
+
+    <h2>Email Draft:</h2>
+    <pre id="emailDraft"></pre>
+
+    <script>
+        // API Endpoint
+        const apiUrl = "http://127.0.0.1:5000/generate-email";
+
+        // Form Submission Handler
+        document.getElementById('emailForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Gather Input Data
+            const supplierName = document.getElementById('supplierName').value;
+            const purpose = document.getElementById('purpose').value;
+            const productName = document.getElementById('productName').value;
+            const price = document.getElementById('price').value;
+            const rating = document.getElementById('rating').value;
+
+            // Prepare Payload
+            const payload = {
+                "Supplier Name": supplierName,
+                "Purpose": purpose,
+                "Product Name": productName,
+                "Price per Unit": parseFloat(price),
+                "Rating": parseFloat(rating)
+            };
+
+            try {
+                // Send POST Request
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // Parse and Display Response
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('emailDraft').textContent = data.email_draft;
+                } else {
+                    document.getElementById('emailDraft').textContent = `Error: ${response.status}`;
+                }
+            } catch (error) {
+                document.getElementById('emailDraft').textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrderAutomateAI Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        canvas {
+            margin: 20px 0;
+        }
+        #loader {
+            display: none;
+            text-align: center;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OrderAutomateAI Insights</h1>
+        <form id="uploadForm">
+            <label for="file">Upload Dataset:</label>
+            <input type="file" id="file" name="file" accept=".csv">
+            <button type="submit">Upload</button>
+        </form>
+        <div id="loader">Processing... Please wait.</div>
+        <div id="message"></div>
+        <h2>Insights</h2>
+        <ul id="insights"></ul>
+        <canvas id="refillChart"></canvas>
+        <canvas id="breakdownChart"></canvas>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const loader = document.getElementById('loader');
+        const messageDiv = document.getElementById('message');
+        const insightsList = document.getElementById('insights');
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a file to upload!');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Show the loader
+            loader.style.display = 'block';
+            messageDiv.textContent = '';
+            insightsList.innerHTML = '';
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to upload file');
+                }
+
+                const data = await response.json();
+                messageDiv.textContent = data.message;
+                loader.style.display = 'none';
+
+                // Display insights
+                insightsList.innerHTML = '';
+                for (const [key, value] of Object.entries(data.insights)) {
+                    const li = document.createElement('li');
+                    li.textContent = `${key}: ${JSON.stringify(value)}`;
+                    insightsList.appendChild(li);
+                }
+
+                // Generate charts
+                generateRefillChart(data.insights['Top Warehouses by Refill Requests']);
+                generateBreakdownChart(data.insights['Warehouses with Most Breakdowns']);
+            } catch (error) {
+                console.error(error);
+                messageDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+                loader.style.display = 'none';
+            }
+        });
+
+        function generateRefillChart(data) {
+            const ctx = document.getElementById('refillChart').getContext('2d');
+            const labels = data.map(item => item.Ware_house_ID);
+            const values = data.map(item => item.num_refill_req_l3m);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Refill Requests (Last 3 Months)',
+                        data: values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                },
+            });
+        }
+
+        function generateBreakdownChart(data) {
+            const ctx = document.getElementById('breakdownChart').getContext('2d');
+            const labels = data.map(item => item.Ware_house_ID);
+            const values = data.map(item => item.wh_breakdown_l3m);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Breakdowns (Last 3 Months)',
+                        data: values,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                    }],
+                },
+                options: {
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                },
+            });
+        }
+    </script>
+</body>
+</html> -->
